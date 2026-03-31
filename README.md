@@ -23,24 +23,53 @@ Browser extension project for direct file sharing between two devices using QR c
 - `libs/lz-string.min.js` - compressed text payload support
 - `icons/` - extension icons
 
-## Local Testing
+## Load Unpacked / Test Locally
 
 ### Chrome
 
+Chrome supports loading an unpacked extension folder directly during development.
+
 1. Open `chrome://extensions`
-2. Enable `Developer mode`
+2. Turn on `Developer mode`
 3. Click `Load unpacked`
 4. Select this project folder
+5. Pin the extension if you want easier testing from the toolbar
+6. After code changes, use the `Reload` button on the Extensions page
+
+This project already uses the Chrome-ready `manifest.json`, so no manifest swap is needed for Chrome.
 
 ### Firefox
 
-1. Open `about:debugging#/runtime/this-firefox`
-2. Click `Load Temporary Add-on`
-3. Use the Firefox-specific manifest when packaging or testing
+Firefox supports temporary loading for testing, but this repo keeps a separate Firefox manifest file.
+
+Before testing in Firefox:
+
+1. Back up the current Chrome manifest if needed
+2. Copy `manifest.firefox.json` to `manifest.json`
+3. Open `about:debugging#/runtime/this-firefox`
+4. Click `Load Temporary Add-on`
+5. Select `manifest.json`
+
+Important notes:
+
+- Firefox temporary add-ons are removed when Firefox restarts
+- When you switch back to Chrome testing, restore the Chrome `manifest.json`
 
 ### Safari
 
-Safari uses its own extension packaging flow. Use the Safari-specific manifest when preparing the project for Safari.
+Safari does not use the same `Load unpacked` button flow as Chrome.
+
+For Safari testing:
+
+1. Use the Safari-specific manifest as your active `manifest.json`
+2. Use Xcode’s Safari Web Extension packaging flow
+3. Build and run the Safari web extension from Xcode for testing
+
+Important notes:
+
+- Safari web extensions are packaged and tested through Apple’s Safari/Xcode workflow
+- Apple’s official Safari Web Extensions documentation also notes that Safari supports temporary installation of a web extension folder for testing, but its main supported packaging and distribution flow uses Xcode
+- If you plan to publish in Safari, prepare the Safari version through Apple’s packaging process before submission
 
 ## Browser Manifest Notes
 
@@ -50,7 +79,7 @@ This repository keeps separate manifest files for browser compatibility:
 - Firefox uses `manifest.firefox.json`
 - Safari uses `manifest.safari.json`
 
-Before packaging for Firefox or Safari, use the matching manifest as the active `manifest.json`.
+Before testing or packaging for Firefox or Safari, use the matching manifest as the active `manifest.json`.
 
 ## How The Connection Works
 
